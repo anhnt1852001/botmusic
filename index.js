@@ -2,16 +2,10 @@ const { ZiMusicBot } = require("@ziplayer/express");
 const { Client, GatewayIntentBits } = require("discord.js");
 require("dotenv").config();
 
-// chống crash toàn cục
-process.on("uncaughtException", (err) => {
-    console.error("❌ Uncaught Exception:", err);
-});
+// chống crash
+process.on("uncaughtException", console.error);
+process.on("unhandledRejection", console.error);
 
-process.on("unhandledRejection", (reason, promise) => {
-    console.error("❌ Unhandled Rejection:", reason);
-});
-
-//discord client
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -21,19 +15,15 @@ const client = new Client({
     ],
 });
 
-// log trạng thái bot
+// READY
 client.once("ready", () => {
     console.log(`✅ Bot online: ${client.user.tag}`);
+    console.log("🚀 BOT ONLINE RAILWAY");
 });
 
-// log lỗi discord
-client.on("error", (err) => {
-    console.error("❌ Discord error:", err);
-});
-
-client.on("warn", (warn) => {
-    console.warn("⚠️ Discord warn:", warn);
-});
+// log lỗi
+client.on("error", console.error);
+client.on("warn", console.warn);
 
 // init bot nhạc
 const ZMusic = new ZiMusicBot(client, {
